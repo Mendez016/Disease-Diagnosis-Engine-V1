@@ -1,4 +1,4 @@
-﻿###Disease Diagnosis Engine V1
+﻿Disease Diagnosis Engine V1
 
 
 
