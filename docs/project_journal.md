@@ -69,3 +69,34 @@
 - Dataset in binary vector format ready for calculations
 - Recovery backup in case of interrupted computing
 - Stable memory utilization
+
+### 2026-06-20
+
+- Computed disease-level feature centroids by averaging patient feature vectors, enabling exploratory analysis of symptom prevalence and providing a basis for similarity-based disease retrieval
+
+### 2026-06-27
+
+- Developed an additional encoding technique for illnesses that theoretically increases the information retention in the system.
+- The new encoding represents the explicit precense of a symptom with 1, the explicit absence of a system with -1, and the lack of information of a system with a 0. Oposite to the previously stated encoding of 1 and 0, this new system differentiates between having no information regarding a symtpom and its explicit absence.
+
+### 2026-06-28
+
+- Started designing alternative architectures that mix encoding, weightings, and retrieval techniques to find the best combination
+- The architectures are a mix of either binary encoding or signed encoding, exploration of weights for literature definition of disease vectors, and cosine similarity or weighted cosine similarity or euclidean distance for retireval techniques
+
+### 2026-06-29
+
+- Ran first test for Binary encoding, cosine similarity, and no weighting with only one record for Anemia. The results was that the model effectively predicted that the diagnosis was Anemia based on the provided symptoms
+
+### 2026-07-16
+
+- Started the development and experimenting with an LLM integration for easy natural language interaction with clients
+
+### 2026-06-17
+
+- Started complimentary information retrieval system (retireving symptoms that contribute the most to the diagnosis as well as symptoms with no information whose precense or abcense are likely to affect the diagnosis)
+- The objective of such system is providing the fastest way to find the most confident diagnosis we can get from the engine while also providing the justification for such diagnosis
+
+### 2026-06-19
+
+- Finished first part of recommendation system. The system consists of comparing the differences on each index and retireving the symptoms for which the difference between the top 1 diagnosis and the patient record is the smallest possible
