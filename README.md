@@ -50,21 +50,33 @@ This model was evaluated in two different configurations: Binary encoding for bo
 #### Binary encoded training validation:
 
 F1-score: 0.99
+
 Weighted precision average: 0.99
+
 Lowest precision achieved: 0.86
+
 Highest precision achieved: 1.00
+
 Weighted recall average: 0.99
+
 Lowest recall achieved: 0.78
+
 Highest recall achieved: 1.00
 
 #### Signed encoded training validation:
 
 F1-score: 0.97
+
 Weighted precision average: 0.98
+
 Lowest precision achieved: 0.50
+
 Highest precision achieved: 1.00
+
 Weighted recall average: 0.97
+
 Lowest recall achieved: 0.32
+
 Highest recall achieved: 1.00
 
 Note: The lowest precisions and lowest recalls in both validation cases happen mostly between pairs of diagnosis that are clinicaly close to each other (example: Chronic Rhinosinousitis and Acute Rhinosinousitis). In the case of the signed encoded training, it is expected to have a lower performance as it is deliberately given less information for accurately generating a diagnosis.
