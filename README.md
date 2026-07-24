@@ -41,3 +41,30 @@ $$Profile_{diagnosis} = \frac{\sum i}{n} $$
 Where the profile for a specific diagnosis is calculated by taking the average of all the vectors whose true diagnosis matches the provided diagnosis.
 
 As an observation, once this process is finished with binary encoding, each cell in the dataframe represents the empirical probability that a person has a each symptom given their diagnosis.
+
+### Validation
+So far, this model has only been validated under the Cosine Similarity retrieval methodology, other methods such as weighted Cosine Similarity and Euclidean Distance can be tested in future iterations.
+
+This model was evaluated in two different configurations: Binary encoding for both training data an validation data simulating the case where a user expresses the presence and absence of all the evidences in the dataset, And a signed encoding for training data while keeping binary encoding for validation data for simulating more realistic scenarios where a user only states the presence of a series of symptoms while not stating the explicit absence/presence of the rest of the symptoms. The results are the following:
+
+#### Binary encoded training validation:
+
+F1-score: 0.99
+Weighted precision average: 0.99
+Lowest precision achieved: 0.86
+Highest precision achieved: 1.00
+Weighted recall average: 0.99
+Lowest recall achieved: 0.78
+Highest recall achieved: 1.00
+
+#### Signed encoded training validation:
+
+F1-score: 0.97
+Weighted precision average: 0.98
+Lowest precision achieved: 0.50
+Highest precision achieved: 1.00
+Weighted recall average: 0.97
+Lowest recall achieved: 0.32
+Highest recall achieved: 1.00
+
+Note: The lowest precisions and lowest recalls in both validation cases happen mostly between pairs of diagnosis that are clinicaly close to each other (example: Chronic Rhinosinousitis and Acute Rhinosinousitis). In the case of the signed encoded training, it is expected to have a lower performance as it is deliberately given less information for accurately generating a diagnosis.
