@@ -80,3 +80,19 @@ Lowest recall achieved: 0.32
 Highest recall achieved: 1.00
 
 Note: The lowest precisions and lowest recalls in both validation cases happen mostly between pairs of diagnosis that are clinicaly close to each other (example: Chronic Rhinosinousitis and Acute Rhinosinousitis). In the case of the signed encoded training, it is expected to have a lower performance as it is deliberately given less information for accurately generating a diagnosis.
+
+## Data Attribution
+
+This library includes a derived model generated from the DDXPlus dataset.
+
+DDXPlus is licensed under the Creative Commons Attribution 4.0 International
+(CC BY 4.0) license.
+
+Original dataset:
+https://github.com/mila-iqia/ddxplus#ddxplus-a-new-dataset-for-automatic-medical-diagnosis
+
+License:
+https://creativecommons.org/licenses/by/4.0/
+
+The dataset was transformed to produce the disease prototype vectors included
+with this package.
