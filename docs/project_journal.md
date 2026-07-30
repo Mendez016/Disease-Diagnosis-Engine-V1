@@ -92,11 +92,14 @@
 
 - Started the development and experimenting with an LLM integration for easy natural language interaction with clients
 
-### 2026-06-17
+### 2026-07-17
 
 - Started complimentary information retrieval system (retireving symptoms that contribute the most to the diagnosis as well as symptoms with no information whose precense or abcense are likely to affect the diagnosis)
 - The objective of such system is providing the fastest way to find the most confident diagnosis we can get from the engine while also providing the justification for such diagnosis
 
-### 2026-06-19
+### 2026-07-19
 
 - Finished first part of recommendation system. The system consists of comparing the differences on each index and retireving the symptoms for which the difference between the top 1 diagnosis and the patient record is the smallest possible
+
+### 2026-07-25
+- Starded developing the library as preparation for deployment online

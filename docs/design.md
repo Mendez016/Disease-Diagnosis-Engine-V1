@@ -8,10 +8,9 @@ Number of diseases: 49
 Patient records used for training: 1025602
 Data Limitations: Ethnicity, place of residency, and social class are also valuable data for diagnosing a person with a disease
 
-### Similarity Method
+### Retrieval Method
 - Cosine similarity
-- Euclidean distance
-Explanation on results once that part is reached...
+
 
 ### Optimizations
     Optimization 1
