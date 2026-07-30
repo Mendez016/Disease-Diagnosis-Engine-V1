@@ -94,5 +94,12 @@ https://github.com/mila-iqia/ddxplus#ddxplus-a-new-dataset-for-automatic-medical
 License:
 https://creativecommons.org/licenses/by/4.0/
 
+Original paper:
+
+> Tchango, A. F., Goel, R., Wen, Z., Martel, J., & Ghosn, J. (2022).
+> **DDXPlus: A New Dataset for Automatic Medical Diagnosis.**
+> NeurIPS 2022 Datasets and Benchmarks Track.
+> DOI: https://doi.org/10.48550/arXiv.2205.09148
+
 The dataset was transformed to produce the disease prototype vectors included
 with this package.
