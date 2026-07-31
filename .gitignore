@@ -7,3 +7,4 @@ main.py
 cosine_sim_engine.egg-info
 __pycache__
 tests/__pycache__/*
+dist

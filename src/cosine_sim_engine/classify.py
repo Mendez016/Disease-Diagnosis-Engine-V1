@@ -10,6 +10,7 @@ class Cosine_sim_classifier:
             self.labels = self.model.columns.tolist()[0]
             self.features = pd.read_csv(files("cosine_sim_engine.data") / "features.csv").drop(columns=["Diagnosis", "Age"])
 
+            
         elif model is not None and labels is not None:
             if not isinstance(model, pd.DataFrame):
                 raise TypeError("The model must be a pandas DataFrame.")
