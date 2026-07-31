@@ -1,42 +1,37 @@
 import pandas as pd
 import numpy as np
-from custom_errors import *
+from importlib.resources import files
+from .custom_errors import *
 
 class Cosine_sim_classifier:
-    def __init__(self, model: pd.DataFrame, labels: str, features: list):
-        ## Initialize the classifier with a pre-trained model
+    def __init__(self, model = None, labels = None):
+        if model is None and labels is None:
+            self.model = pd.read_csv(files("cosine_sim_engine.data") / "prototype_vectors.csv"  )
+            self.labels = self.model.columns.tolist()[0]
+            self.features = pd.read_csv(files("cosine_sim_engine.data") / "features.csv").drop(columns=["Diagnosis", "Age"])
 
-        if not isinstance(model, pd.DataFrame):
-            raise TypeError("The model must be a pandas DataFrame.")
+        elif model is not None and labels is not None:
+            if not isinstance(model, pd.DataFrame):
+                raise TypeError("The model must be a pandas DataFrame.")
 
-        if not isinstance(labels, str):
-            raise TypeError("The labels must be a string representing the column name of the labels in the model DataFrame.")
+            if not isinstance(labels, str):
+                raise TypeError("The labels must be a string representing the column name of the labels in the model DataFrame.")
 
-        if not isinstance(features, list):
-            raise TypeError("The features must be a list of strings representing the column names of the features in the model DataFrame.")
+            if labels not in model.columns or labels is None:
+                raise InvalidLabelColumnError(self.labels)
 
-        self.model = model
-        self.labels = labels
-        self.features = pd.DataFrame(columns = features)
-
-        if self.features.shape[1] != self.model.shape[1] - 1:
-            raise InvalidFeaturesError(self.features.shape[1], self.model.shape[1] - 1)
-
-        if self.labels not in self.model.columns or self.labels is None:
-            raise InvalidLabelColumnError(self.labels)
-
-    def __init__(self):
-        ## Default constructor, loads model from the original disease diagnosis engine           
-        self.model = pd.read_csv("./data/output_average.csv")
-        self.labels = self.model.columns.tolist()[0]
-        self.features = pd.read_csv("./data/features.csv").drop(columns=["Diagnosis", "Age"])
+            self.model = model
+            self.labels = labels
+            self.features = pd.DataFrame(columns = model.drop(columns=[labels]).columns.to_list())
+        else:
+            raise ValueError("The model, labels, and features must be provided together or not at all. Please provide all three parameters or none.")
 
     def similarity(self, vector, k=5):
 
         if k < 1 or k > self.model.shape[0]:
             raise InvalidTop_KError(k)
 
-        if not isinstance(vector, np.ndarray) or not isinstance(vector, list) or not isinstance(vector, pd.Series) or not (isinstance(vector, pd.DataFrame) and vector.shape[1] == 1):
+        if not isinstance(vector, np.ndarray) and not isinstance(vector, list) and not isinstance(vector, pd.Series):
             raise InvalidVectorTypeError(resulting_type=type(vector))
         
         if len(vector) != self.model.shape[1] - 1:
@@ -66,11 +61,18 @@ class Cosine_sim_classifier:
 
     def get_labels(self):
         return self.labels
-    
-    def extract_features(self, record: dict):
-        if record is None or not isinstance(record, dict):
-            raise TypeError("The record must be a dictionary with symptom names as keys and symptom values as values.")
 
+    def extract_features(self, data):
+        if isinstance(data, dict):
+            return self.extract_dict(data)
+        elif isinstance(data, list):
+            return self.extract_list(data)
+        elif isinstance(data, pd.DataFrame):
+            return self.extract_df(data)
+        else:
+            raise TypeError("The record must be a dictionary, list, or pandas DataFrame.")
+
+    def extract_dict(self, record: dict):
         if len(record) > self.features.shape[1]:
             raise ValueError("The record contains more features than the model supports. Please provide a record with the correct number of features.")
         
@@ -88,11 +90,9 @@ class Cosine_sim_classifier:
         ## Extracts features to be used from a given record structured as a dictionary holding keys and values for each symptom
         ## Expected structure of the dictionary is {symptom_name: symptom_value, ...}. Any not present symptom will be treated as 0 (no information gathered)
 
-        return new_record
+        return new_record.iloc[0]
 
-    def extract_features(self, record: list):
-        if record is None or not isinstance(record, list):
-            raise TypeError("The record must be a list of symptom codes.")
+    def extract_list(self, record: list):
         if len(record) > self.features.shape[1]:
             raise ValueError("The record contains more features than the model supports. Please provide a record with the correct number of features.")
 
@@ -107,18 +107,13 @@ class Cosine_sim_classifier:
             new_record[i] = 1
         ## Extracts features to be used from a given record structured as a list of values for each symptom
         ## Expected structure of the list is [symptom_code_1, symptom_code_2, ...]. Any not present symptom will be treated as -1 (explicitly not present)
-        return new_record
+        return new_record.iloc[0]
 
-    def extract_features(self, record: pd.DataFrame):
-        if record is None or not isinstance(record, pd.DataFrame):
-            raise TypeError("The record must be a pandas DataFrame with symptom names as columns and symptom values as rows.")
+    def extract_df(self, record: pd.DataFrame):
         if record.shape[1] > self.features.shape[1]:
             raise ValueError("The record contains more features than the model supports. Please provide a record with the correct number of features.")
 
         new_record = self.features.copy()
-        new_record = new_record.T
-        new_record[0] = np.zeros(new_record.shape[0], dtype=int)
-        new_record = new_record.T
 
         new_record = pd.concat([new_record, record], ignore_index = True)
         if new_record.shape[1] != self.features.shape[1]:
@@ -126,4 +121,4 @@ class Cosine_sim_classifier:
         ## Extracts features to be used from a given record structured as a pandas DataFrame holding columns and rows for each symptom
         ## Expected structure of the DataFrame is columns as symptom names and rows as symptom values. Any not present symptom will be treated as 0 (no information gathered)
 
-        return new_record
+        return new_record.iloc[0]

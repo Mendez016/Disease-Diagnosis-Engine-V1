@@ -20,15 +20,6 @@ class InvalidLabelColumnError(Exception):
         else:
             return f"InvalidLabelColumnError: The label column '{self.label}' is not present in the model DataFrame."
 
-class InvalidFeaturesError(Exception):
-    def __init__(self, features_len, model_len, message="Invalid features"):
-        super().__init__(message)
-        self.features_len = features_len
-        self.model_len = model_len
-
-    def __str__(self):
-        return f"InvalidFeaturesError: The features list must have the same length as the number of features of the model. Expected length: {self.model_len}, but got length {self.features_len}."
-
 class InvalidVectorSizeError(Exception):
     def __init__(self, model_columns, vector_size, message="Invalid input vector"):
         super().__init__(message)
