@@ -91,7 +91,7 @@ class Cosine_sim_classifier:
         ## Extracts features to be used from a given record structured as a dictionary holding keys and values for each symptom
         ## Expected structure of the dictionary is {symptom_name: symptom_value, ...}. Any not present symptom will be treated as 0 (no information gathered)
 
-        return new_record.iloc[0]
+        return new_record.iloc[[0]]
 
     def extract_list(self, record: list):
         if len(record) > self.features.shape[1]:
@@ -108,7 +108,7 @@ class Cosine_sim_classifier:
             new_record[i] = 1
         ## Extracts features to be used from a given record structured as a list of values for each symptom
         ## Expected structure of the list is [symptom_code_1, symptom_code_2, ...]. Any not present symptom will be treated as -1 (explicitly not present)
-        return new_record.iloc[0]
+        return new_record.iloc[[0]]
 
     def extract_df(self, record: pd.DataFrame):
         if record.shape[1] > self.features.shape[1]:
@@ -117,9 +117,10 @@ class Cosine_sim_classifier:
         new_record = self.features.copy()
 
         new_record = pd.concat([new_record, record], ignore_index = True)
+        new_record = new_record.fillna(0)
         if new_record.shape[1] != self.features.shape[1]:
             raise ValueError("The record contains more features than the model supports or the record contains invalid features. Please provide a record with the correct number of features.")
         ## Extracts features to be used from a given record structured as a pandas DataFrame holding columns and rows for each symptom
         ## Expected structure of the DataFrame is columns as symptom names and rows as symptom values. Any not present symptom will be treated as 0 (no information gathered)
 
-        return new_record.iloc[0]
+        return new_record.iloc[[0]]
