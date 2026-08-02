@@ -32,8 +32,11 @@ class Cosine_sim_classifier:
         if k < 1 or k > self.model.shape[0]:
             raise InvalidTop_KError(k)
 
-        if not isinstance(vector, np.ndarray) and not isinstance(vector, list) and not isinstance(vector, pd.Series):
+        if not isinstance(vector, np.ndarray) and not isinstance(vector, list) and not isinstance(vector, pd.Series) and not isinstance(vector, pd.DataFrame):
             raise InvalidVectorTypeError(resulting_type=type(vector))
+
+        if isinstance(vector, pd.DataFrame):
+            vector = vector.iloc[0]
         
         if len(vector) != self.model.shape[1] - 1:
             raise InvalidVectorSizeError(self.model.shape[1] - 1, len(vector))

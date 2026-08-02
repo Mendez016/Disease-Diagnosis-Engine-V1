@@ -10,6 +10,7 @@ def test_extract_list():
     to_extract = random.sample(all_features.columns.to_list(), 5)
     extracted = model.extract_features(to_extract)
     assert(extracted is not None)
+    assert(isinstance(extracted, pd.DataFrame))
 
 def test_extract_dict():
     model = Cosine_sim_classifier()
@@ -20,6 +21,7 @@ def test_extract_dict():
         to_extract[feature] = random.choice([-1, 1])
     extracted = model.extract_features(to_extract)
     assert(extracted is not None)
+    assert(isinstance(extracted, pd.DataFrame))
 
 def test_extract_df():
     model = Cosine_sim_classifier()
@@ -31,3 +33,4 @@ def test_extract_df():
     to_extract = pd.DataFrame([to_extract])
     extracted = model.extract_features(to_extract)
     assert(extracted is not None)
+    assert(isinstance(extracted, pd.DataFrame))
